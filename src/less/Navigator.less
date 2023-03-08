@@ -1,0 +1,47 @@
+.navigator {
+    position: absolute;
+    background-color: rgb(38, 38, 38);
+    color: white;
+
+    ul {
+        list-style: none;
+        padding-left: 0;
+        margin: 10px 10px;
+    }
+
+    a {
+        color: inherit;
+        text-decoration: inherit;
+        cursor: inherit;
+
+        &:nth-child(1) {
+            border-top-right-radius: 9px;
+            border-top-left-radius: 9px;
+
+            li {
+                border-top-right-radius: 9px;
+                border-top-left-radius: 9px;
+            }
+        }
+
+
+        &:last-child {
+            border-bottom-right-radius: 9px;
+            border-bottom-left-radius: 9px;
+
+            li {
+                border-bottom-right-radius: 9px;
+                border-bottom-left-radius: 9px;
+            }
+        }
+
+        li {
+            padding: 3px 2px;
+            cursor: pointer;
+
+            &:hover {
+                background-color: darkgray;
+            }
+        }
+    }
+}
