@@ -1,0 +1,14 @@
+:root{
+    --primary-color: #0078d4;
+    --text: #000000;
+    --body-bg: #f0f0f0;
+    --form-bg: #ffffff;
+}
+
+input[type="submit"]:hover {
+    background-color: #005a9e;
+}
+
+input[type="submit"]:active {
+    background-color: #004578;
+}

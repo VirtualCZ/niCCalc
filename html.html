@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My Webpage</title>
+    <link rel="stylesheet" href="default.css" id="theme-default" />
+    <link rel="stylesheet" href="light-mode.css" id="theme-style" />
+  </head>
+  <body>
+    <label class="switch">
+      <input type="checkbox" id="theme-toggle" />
+      <span class="slider round"></span>
+    </label>
+    <form onsubmit="sendToConsole(event)">
+      <label for="text-input">Enter text:</label>
+      <input type="text" id="text-input" name="text-input" />
+      <input type="submit" value="Submit" />
+    </form>
+    <h1 id="text-output"></h1>
+    <script src="js.js"></script>
+  </body>
+</html>
