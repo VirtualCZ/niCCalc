@@ -24,7 +24,7 @@ table .error {
   @apply m-0;
 }
 .App .card {
-  @apply flex rounded-lg bg-primary-500 p-3 border-secondary-500 border-solid border-2 shadow-xl flex-1;
+  @apply flex rounded-lg bg-primary-500 p-3 border-secondary-100 border-solid border-2 shadow-xl flex-1;
 }
 .App .card > section {
   @apply flex-1 flex flex-col justify-center;
