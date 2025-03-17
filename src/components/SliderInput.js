@@ -17,8 +17,16 @@ const SliderInput = ({
   return (
     <div className="input_container">
       <label>{label}</label>
-      <input onChange={onChange} type="range" step={step} min={min} max={max} />
-      <label className="unit">{unit}</label>
+      <div>
+        <input
+          onChange={onChange}
+          type="range"
+          step={step}
+          min={min}
+          max={max}
+        />
+        <label className="unit">{unit}</label>
+      </div>
     </div>
   );
 };

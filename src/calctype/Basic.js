@@ -24,6 +24,22 @@ const Basic = () => {
   });
   const [VG, setVG] = useState(0);
   const [PG, setPG] = useState(0);
+  const [total, setTotal] = useState({
+    VG: 0,
+    PG: 0,
+    aroma: 0,
+    ice: 0,
+    nicotine: 0,
+  });
+  const [pricePerMl, setPricePerMl] = useState({
+    VG: 0,
+    PG: 0,
+    aroma: 0,
+    ice: 0,
+    nicotine: 0,
+    additional: 0,
+    profit_perc: 0,
+  });
 
   useEffect(() => {
     if (isNaN(desired.ml)) {
@@ -83,140 +99,307 @@ const Basic = () => {
       Math.round((t_bezVGPG * (desired.PG / 100) - t_nicotine_PG) * 100) / 100
     );
 
+    setTotal({
+      ...total,
+      VG: Math.round(VG * pricePerMl.VG * 100) / 100,
+      PG: Math.round(PG * pricePerMl.PG * 100) / 100,
+      aroma: Math.round(aroma * pricePerMl.aroma * 100) / 100,
+      ice: Math.round(ice * pricePerMl.ice * 100) / 100,
+      nicotine: Math.round(nicotine.ml * pricePerMl.nicotine * 100) / 100,
+    });
+
     // console.log(t_nicotine_PG);
     // console.log(t_nicotine_VG);
-  }, [desired, nicotine.VG, nicotine.PG, nicotine.nic_base_mg_ml]);
+  }, [
+    desired.ml,
+    nicotine.VG,
+    nicotine.PG,
+    nicotine.nic_base_mg_ml,
+    pricePerMl,
+  ]);
 
   return (
     <div className="App">
-      <section className="section e-liquid">
-        <NumInput
-          label="Desired e-liquid amount"
-          placeholder={30}
-          onChange={(e) => {
-            setDesired({
-              ...desired,
-              ml: parseInt(e.target.value),
-            });
-          }}
-          unit="ml"
-        />
-        <SliderInput
-          label="Desired VG/PG ratio"
-          onChange={(e) => {
-            setDesired({
-              ...desired,
-              VG: parseInt(e.target.value),
-              PG: parseInt(100 - e.target.value),
-            });
-          }}
-          step="10"
-          min="10"
-          max="90"
-          unit={desired.VG + "/" + desired.PG}
-        />
-      </section>
+      <div className="card">
+        <section className="mixing">
+          <section className="liquid">
+            <h2>E-Liquid base</h2>
+            <NumInput
+              label="Desired e-liquid amount"
+              placeholder={30}
+              onChange={(e) => {
+                setDesired({
+                  ...desired,
+                  ml: parseFloat(e.target.value),
+                });
+              }}
+              unit="ml"
+            />
+            <SliderInput
+              label="Desired VG/PG ratio"
+              onChange={(e) => {
+                setDesired({
+                  ...desired,
+                  VG: parseFloat(e.target.value),
+                  PG: parseFloat(100 - e.target.value),
+                });
+              }}
+              step="10"
+              min="10"
+              max="90"
+              unit={desired.VG + "/" + desired.PG}
+            />
+          </section>
 
-      <hr />
+          <section className="aroma">
+            <h2>Aroma</h2>
+            <NumInput
+              label="Desired aroma strength"
+              placeholder={12}
+              onChange={(e) => {
+                setDesired({
+                  ...desired,
+                  aroma: parseFloat(e.target.value),
+                });
+              }}
+              unit="%"
+            />
+          </section>
 
-      <section className="section aroma">
-        <NumInput
-          label="Desired aroma strength"
-          placeholder={12}
-          onChange={(e) => {
-            setDesired({
-              ...desired,
-              aroma: parseInt(e.target.value),
-            });
-          }}
-          unit="%"
-        />
-      </section>
+          <section className="ice">
+            <h2>Ice</h2>
+            <NumInput
+              label="Desired ice strength"
+              placeholder={2}
+              onChange={(e) => {
+                setDesired({
+                  ...desired,
+                  ice: parseFloat(e.target.value),
+                });
+              }}
+              unit="%"
+            />
+          </section>
 
-      <hr />
+          <section className="nicotine">
+            <h2>Nicotine</h2>
+            <NumInput
+              label="Desired nicotine strength"
+              placeholder={8}
+              onChange={(e) => {
+                setDesired({
+                  ...desired,
+                  nicotine: parseFloat(e.target.value),
+                });
+              }}
+              unit="mg/ml"
+            />
+            <NumInput
+              label="Nicotine base strength"
+              placeholder={20}
+              onChange={(e) => {
+                setNicotine({
+                  ...nicotine,
+                  nic_base_mg_ml: parseFloat(e.target.value),
+                });
+              }}
+              unit="mg/ml"
+            />
+            <SliderInput
+              label="Nicotine base VG/PG ratio"
+              onChange={(e) => {
+                setNicotine({
+                  ...nicotine,
+                  VG: parseFloat(e.target.value),
+                  PG: 100 - parseFloat(e.target.value),
+                });
+              }}
+              step="10"
+              min="10"
+              max="90"
+              unit={nicotine.VG + "/" + nicotine.PG}
+            />
+          </section>
+        </section>
 
-      <section className="section ice">
-        <NumInput
-          label="Desired ice strength"
-          placeholder={2}
-          onChange={(e) => {
-            setDesired({
-              ...desired,
-              ice: parseInt(e.target.value),
-            });
-          }}
-          unit="%"
-        />
-      </section>
+        <section className="calculations_container">
+          <section className="pricing">
+            <h2>Set prices per ml</h2>
+            <NumInput
+              label="PG"
+              placeholder={0.19}
+              onChange={(e) => {
+                setPricePerMl({
+                  ...pricePerMl,
+                  PG: parseFloat(e.target.value),
+                });
+              }}
+              unit="$/ml"
+            />
+            <NumInput
+              label="VG"
+              placeholder={0.08}
+              onChange={(e) => {
+                setPricePerMl({
+                  ...pricePerMl,
+                  VG: parseFloat(e.target.value),
+                });
+              }}
+              unit="$/ml"
+            />
+            <NumInput
+              label="Aroma"
+              placeholder={10}
+              onChange={(e) => {
+                setPricePerMl({
+                  ...pricePerMl,
+                  aroma: parseFloat(e.target.value),
+                });
+              }}
+              unit="$/ml"
+            />
+            <NumInput
+              label="Ice"
+              placeholder={10}
+              onChange={(e) => {
+                setPricePerMl({
+                  ...pricePerMl,
+                  ice: parseFloat(e.target.value),
+                });
+              }}
+              unit="$/ml"
+            />
+            <NumInput
+              label="Nicotine"
+              placeholder={3}
+              onChange={(e) => {
+                setPricePerMl({
+                  ...pricePerMl,
+                  nicotine: parseFloat(e.target.value),
+                });
+              }}
+              unit="$/ml"
+            />
+            <NumInput
+              label="Additional costs"
+              placeholder={10}
+              onChange={(e) => {
+                setPricePerMl({
+                  ...pricePerMl,
+                  additional: parseFloat(e.target.value),
+                });
+              }}
+              unit="$"
+            />
+            <NumInput
+              label="Profit margin"
+              placeholder={10}
+              onChange={(e) => {
+                setPricePerMl({
+                  ...pricePerMl,
+                  profit_perc: parseFloat(e.target.value),
+                });
+              }}
+              unit="%"
+            />
+          </section>
+          <section className="calculations">
+            <h2>Final results</h2>
+            <table>
+              <tr>
+                <th></th>
+                <th>
+                  <p>PG</p>
+                </th>
+                <th>
+                  <p>VG</p>
+                </th>
+                <th>
+                  <p>Ice</p>
+                </th>
+                <th>
+                  <p>Aroma</p>
+                </th>
+                <th>
+                  <p>Nicotine</p>
+                </th>
+                <th>
+                  <p>Total</p>
+                </th>
+              </tr>
+              <tr>
+                <td>
+                  <p>ml:</p>
+                </td>
+                {PG < 0 ? <td class="error">{PG}</td> : <td>{PG}</td>}
+                {VG < 0 ? <td class="error">{VG}</td> : <td>{VG}</td>}
+                {ice < 0 ? <td class="error">{ice}</td> : <td>{ice}</td>}
+                {aroma < 0 ? <td class="error">{aroma}</td> : <td>{aroma}</td>}
+                <td>{nicotine.ml}</td>
+                <td>{desired.ml}</td>
+              </tr>
+              <tr>
+                <td>
+                  <p>Price:</p>
+                </td>
+                <td>{total.PG}</td>
+                <td>{total.VG}</td>
+                <td>{total.ice}</td>
+                <td>{total.aroma}</td>
+                <td>{total.nicotine}</td>
+                <td>
+                  {(total.PG +
+                    total.VG +
+                    total.ice +
+                    total.aroma +
+                    total.nicotine +
+                    pricePerMl.additional) *
+                    (pricePerMl.profit_perc
+                      ? pricePerMl.profit_perc / 100 + 1
+                      : 1)}
+                </td>
+              </tr>
+            </table>
+            <h2>
+              Profit:{" "}
+              {Math.round(
+                ((total.PG +
+                  total.VG +
+                  total.ice +
+                  total.aroma +
+                  total.nicotine +
+                  pricePerMl.additional) *
+                  (pricePerMl.profit_perc
+                    ? pricePerMl.profit_perc / 100 + 1
+                    : 1) -
+                  (total.PG +
+                    total.VG +
+                    total.ice +
+                    total.aroma +
+                    total.nicotine +
+                    pricePerMl.additional)) *
+                  100
+              ) / 100}
+              $
+            </h2>
+          </section>
 
-      <hr />
-
-      <section className="section nicotine">
-        <NumInput
-          label="Desired nicotine strength"
-          placeholder={8}
-          onChange={(e) => {
-            setDesired({
-              ...desired,
-              nicotine: parseInt(e.target.value),
-            });
-          }}
-          unit="mg/ml"
-        />
-        <NumInput
-          label="Nicotine base strength"
-          placeholder={20}
-          onChange={(e) => {
-            setNicotine({
-              ...nicotine,
-              nic_base_mg_ml: parseInt(e.target.value),
-            });
-          }}
-          unit="mg/ml"
-        />
-        <SliderInput
-          label="Nicotine base VG/PG ratio"
-          onChange={(e) => {
-            setNicotine({
-              ...nicotine,
-              VG: parseInt(e.target.value),
-              PG: 100 - parseInt(e.target.value),
-            });
-          }}
-          step="10"
-          min="10"
-          max="90"
-          unit={nicotine.VG + "/" + nicotine.PG}
-        />
-      </section>
-
-      <hr />
-
-      <section className="section calculations">
-        <Error
-          error={[
-            nicotine.nic_base_mg_ml < desired.nicotine
-              ? "Can't have more desired nicotine, than you have in your nicotine base"
-              : null,
-            nicotine.nic_base_mg_ml === desired.nicotine &&
-            nicotine.nic_base_mg_ml !== 0
-              ? "Please enter lower desired nicotine strength"
-              : null,
-            PG < 0 || VG < 0 ? "Please check the inputted data" : null,
-          ]}
-        />
-        <p>PG: {PG < 0 ? <span class="error">{PG + "ml"}</span> : PG + "ml"}</p>
-        <p>VG: {VG < 0 ? <span class="error">{VG + "ml"}</span> : VG + "ml"}</p>
-        <p>
-          Ice: {ice < 0 ? <span class="error">{ice + "ml"}</span> : ice + "ml"}
-        </p>
-        <p>
-          Aroma:{" "}
-          {aroma < 0 ? <span class="error">{aroma + "ml"}</span> : aroma + "ml"}
-        </p>
-        <p>Nicotine: {nicotine.ml}ml</p>
-        <p>Total: {desired.ml}ml</p>
-      </section>
+          <section className="errors">
+            <Error
+              error={[
+                nicotine.nic_base_mg_ml < desired.nicotine
+                  ? "Can't have more desired nicotine, than you have in your nicotine base"
+                  : null,
+                nicotine.nic_base_mg_ml === desired.nicotine &&
+                nicotine.nic_base_mg_ml !== 0
+                  ? "Please enter lower desired nicotine strength"
+                  : null,
+                PG < 0 || VG < 0 ? "Please check the inputted data" : null,
+              ]}
+            />
+          </section>
+        </section>
+      </div>
     </div>
   );
 };

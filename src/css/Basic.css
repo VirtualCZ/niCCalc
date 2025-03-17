@@ -1,65 +1,51 @@
 body {
-  background-color: #282c34;
-  color: white;
+  @apply bg-primary-300 text-white accent-secondary-500;
+}
+table {
+  @apply w-full mt-1;
+}
+table td {
+  @apply text-center;
+}
+table td,
+table th {
+  @apply border-spacing-1;
+}
+table .error {
+  @apply bg-red-600;
 }
 .App {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: 18px;
+  @apply text-lg container mx-auto min-h-screen flex items-center;
 }
-.error {
-  background-color: red;
-  border-radius: 9px;
-  padding: 2px 3px;
+.App input {
+  @apply border-none rounded-lg text-black p-0;
 }
-.section {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 75%;
+.App p {
+  @apply m-0;
 }
-.input_container {
-  display: flex;
-  align-items: center;
-  width: 100%;
-  justify-content: center;
+.App .card {
+  @apply flex rounded-lg bg-primary-500 p-3 border-secondary-500 border-solid border-2 shadow-xl flex-1;
 }
-.input_container label.unit {
-  text-align: left;
-  margin-right: 0px;
-  margin-left: 10px;
+.App .card > section {
+  @apply flex-1 flex flex-col justify-center;
 }
-label.error {
-  text-align: center;
-  margin-right: 10px;
-  margin-left: 10px;
+.App .card > section > section {
+  @apply flex flex-col items-center justify-center mx-1 my-4;
 }
-label {
-  margin-right: 10px;
-  width: 300px;
-  text-align: right;
+.App .card > section > section .input_container > div {
+  @apply flex;
 }
-input {
-  width: 242px;
-  margin-right: 200px;
-  border-radius: 9px;
-  border: none;
-  margin: 5px 0 5px 0;
-  padding: 3px 4px;
+.App .card > section > section .input_container label {
+  @apply mx-2 mt-1 block;
 }
-input[type="range"] {
-  width: 250px;
-  margin: 5px 0 5px 0;
-  padding: 0;
+.App .card > section > section .input_container label.unit {
+  @apply mx-2 my-1 inline-block w-14;
 }
-p {
-  margin: 10px 0;
+.App .card > section > section .input_container input {
+  @apply w-52 mx-2 mb-1 px-2 py-1;
 }
-hr {
-  width: 100px;
+.App .card > section > section .input_container input[type="range"] {
+  @apply px-0 py-0;
 }
 /*# sourceMappingURL=App.css.map */
 /*# sourceMappingURL=Basic.css.map */

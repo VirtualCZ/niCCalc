@@ -2,34 +2,31 @@
   position: absolute;
   background-color: #262626;
   color: white;
+  width: 100%;
+}
+.navigator > div {
+  @apply text-lg container mx-auto flex items-center;
+}
+.navigator > div ul {
+  flex: 1;
+  display: flex;
 }
 .navigator ul {
   list-style: none;
   padding-left: 0;
   margin: 10px 10px;
+  justify-content: end;
+}
+.navigator ul li {
+  margin-left: 15px;
 }
 .navigator a {
   color: inherit;
   text-decoration: inherit;
   cursor: inherit;
 }
-.navigator a:nth-child(1) {
-  border-top-right-radius: 9px;
-  border-top-left-radius: 9px;
-}
-.navigator a:nth-child(1) li {
-  border-top-right-radius: 9px;
-  border-top-left-radius: 9px;
-}
-.navigator a:last-child {
-  border-bottom-right-radius: 9px;
-  border-bottom-left-radius: 9px;
-}
-.navigator a:last-child li {
-  border-bottom-right-radius: 9px;
-  border-bottom-left-radius: 9px;
-}
 .navigator a li {
+  border-radius: 9px;
   padding: 3px 2px;
   cursor: pointer;
 }

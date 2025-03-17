@@ -2,11 +2,31 @@
     position: absolute;
     background-color: rgb(38, 38, 38);
     color: white;
+    width: 100%;
+
+
+    &>div {
+        @apply text-lg container mx-auto flex items-center;
+
+        h1 {}
+
+        ul {
+            flex: 1;
+            display: flex;
+        }
+
+    }
+
 
     ul {
         list-style: none;
         padding-left: 0;
         margin: 10px 10px;
+        justify-content: end;
+
+        li {
+            margin-left: 15px;
+        }
     }
 
     a {
@@ -14,28 +34,8 @@
         text-decoration: inherit;
         cursor: inherit;
 
-        &:nth-child(1) {
-            border-top-right-radius: 9px;
-            border-top-left-radius: 9px;
-
-            li {
-                border-top-right-radius: 9px;
-                border-top-left-radius: 9px;
-            }
-        }
-
-
-        &:last-child {
-            border-bottom-right-radius: 9px;
-            border-bottom-left-radius: 9px;
-
-            li {
-                border-bottom-right-radius: 9px;
-                border-bottom-left-radius: 9px;
-            }
-        }
-
         li {
+            border-radius: 9px;
             padding: 3px 2px;
             cursor: pointer;
 
@@ -44,4 +44,5 @@
             }
         }
     }
+
 }
